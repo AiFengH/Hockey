@@ -1,0 +1,10 @@
+.idea/
+.gradle/
+gradlew
+gradlew.bat
+gradle.properties
+build/
+gradle/
+app/build/
+*.iml
+app/proguard-rules.pro
