@@ -2,6 +2,7 @@ package com.haf.hockey.object;
 
 import android.content.Context;
 import android.opengl.GLES20;
+import android.opengl.Matrix;
 
 import com.haf.hockey.util.ShaderHelper;
 import com.haf.hockey.util.TextResourceReader;
@@ -22,8 +23,9 @@ public class Table {
     private static final String U_COLOR = "u_Color";
     private static final String A_COLOR = "a_Color";
     private static final String A_POSITION = "a_Position";
+    private static final String U_MATRIX = "u_Matrix";
     public float[] mVertices = {
-//            //triangle 1
+//            //triangle 11
 //            -4.5f, -7f,
 //            4.5f, -7f,
 //            4.5f, 7f,
@@ -50,6 +52,10 @@ public class Table {
             0f, 5f, 1f, 0f, 0f
 
     };
+
+    private int mScreenWidth = 0;
+    private int mScreenHeight = 0;
+    private final float[] mProjectionMatrix = new float[16];
     private FloatBuffer mVertexBuffer = null;
 
     private String mVertexShaderSource = "";
@@ -63,7 +69,16 @@ public class Table {
     private int uColorLocation = 0;
     private int aPositionLocation = 0;
     private int aColorLocation = 0;
+    private int uMatrixLocation = 0;
     private Context mConText = null;
+
+    public void setScreenWidth(int screenWidth) {
+        this.mScreenWidth = screenWidth;
+    }
+
+    public void setScreenHeight(int screenHeight) {
+        this.mScreenHeight = screenHeight;
+    }
 
     public String getFragmentShaderSource() {
         return mFragmentShaderSource;
@@ -102,6 +117,7 @@ public class Table {
         uColorLocation = ShaderHelper.getUniformLocation(mProgram, U_COLOR);
         aPositionLocation = ShaderHelper.getAttributeLocation(mProgram, A_POSITION);
         aColorLocation = ShaderHelper.getAttributeLocation(mProgram, A_COLOR);
+        uMatrixLocation = ShaderHelper.getAttributeLocation(mProgram, U_MATRIX);
 
         mVertexBuffer.position(0);
 //        ShaderHelper.writeVertexAttribute(aPositionLocation, POSITION_COMPONENT_COUNT, GLES20.GL_FLOAT, false, 0, mVertexBuffer);
@@ -109,11 +125,19 @@ public class Table {
 
         mVertexBuffer.position(POSITION_COMPONENT_COUNT);
         ShaderHelper.writeVertexAttribute(aColorLocation, COLOR_COMPONENT_COUNT, GLES20.GL_FLOAT, false, STRIDE, mVertexBuffer);
+
+        final float aspectRatio = mScreenWidth > mScreenHeight ? (float) mScreenWidth / (float) mScreenHeight : (float) mScreenHeight / (float) mScreenWidth;
+        if (mScreenWidth > mScreenHeight) {
+            Matrix.orthoM(mProjectionMatrix, 0, -aspectRatio, aspectRatio, -1f, 1f, -1f, 1f);
+        } else {
+            Matrix.orthoM(mProjectionMatrix, 0, -1f, 1f, -aspectRatio, aspectRatio, -1f, 1f);
+        }
     }
 
     public void draw() {
 //        glUniform4f(uColorLocation, 1f, 1f, 1f, 1f);
 //        glDrawArrays(GL_TRIANGLES, 0, 6);
+        glUniformMatrix4fv(uMatrixLocation, 1, false, mProjectionMatrix, 0);
         glDrawArrays(GL_TRIANGLE_FAN, 0, 6);
 
 //        glUniform4f(uColorLocation, 1f, 0f, 0f, 1f);
