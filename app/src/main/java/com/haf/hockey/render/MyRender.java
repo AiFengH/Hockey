@@ -40,7 +40,7 @@ public class MyRender implements GLSurfaceView.Renderer{
         } else {
             glViewport(0, 0, width, height);
         }
-
+        mTable.orthoM(height, width);
     }
 
     @Override

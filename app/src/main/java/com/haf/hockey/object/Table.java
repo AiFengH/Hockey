@@ -53,8 +53,6 @@ public class Table {
 
     };
 
-    private int mScreenWidth = 0;
-    private int mScreenHeight = 0;
     private final float[] mProjectionMatrix = new float[16];
     private FloatBuffer mVertexBuffer = null;
 
@@ -72,12 +70,14 @@ public class Table {
     private int uMatrixLocation = 0;
     private Context mConText = null;
 
-    public void setScreenWidth(int screenWidth) {
-        this.mScreenWidth = screenWidth;
-    }
 
-    public void setScreenHeight(int screenHeight) {
-        this.mScreenHeight = screenHeight;
+    public void orthoM(int screenHeight, int screenWidth) {
+        final float aspectRatio = screenWidth > screenHeight ? (float) screenWidth / (float) screenHeight : (float) screenHeight / (float) screenWidth;
+        if (screenWidth > screenHeight) {
+            Matrix.orthoM(mProjectionMatrix, 0, -aspectRatio, aspectRatio, -1f, 1f, -1f, 1f);
+        } else {
+            Matrix.orthoM(mProjectionMatrix, 0, -1f, 1f, -aspectRatio, aspectRatio, -1f, 1f);
+        }
     }
 
     public String getFragmentShaderSource() {
@@ -117,7 +117,7 @@ public class Table {
         uColorLocation = ShaderHelper.getUniformLocation(mProgram, U_COLOR);
         aPositionLocation = ShaderHelper.getAttributeLocation(mProgram, A_POSITION);
         aColorLocation = ShaderHelper.getAttributeLocation(mProgram, A_COLOR);
-        uMatrixLocation = ShaderHelper.getAttributeLocation(mProgram, U_MATRIX);
+        uMatrixLocation = ShaderHelper.getUniformLocation(mProgram, U_MATRIX);
 
         mVertexBuffer.position(0);
 //        ShaderHelper.writeVertexAttribute(aPositionLocation, POSITION_COMPONENT_COUNT, GLES20.GL_FLOAT, false, 0, mVertexBuffer);
@@ -126,12 +126,7 @@ public class Table {
         mVertexBuffer.position(POSITION_COMPONENT_COUNT);
         ShaderHelper.writeVertexAttribute(aColorLocation, COLOR_COMPONENT_COUNT, GLES20.GL_FLOAT, false, STRIDE, mVertexBuffer);
 
-        final float aspectRatio = mScreenWidth > mScreenHeight ? (float) mScreenWidth / (float) mScreenHeight : (float) mScreenHeight / (float) mScreenWidth;
-        if (mScreenWidth > mScreenHeight) {
-            Matrix.orthoM(mProjectionMatrix, 0, -aspectRatio, aspectRatio, -1f, 1f, -1f, 1f);
-        } else {
-            Matrix.orthoM(mProjectionMatrix, 0, -1f, 1f, -aspectRatio, aspectRatio, -1f, 1f);
-        }
+
     }
 
     public void draw() {
