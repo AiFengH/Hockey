@@ -22,13 +22,14 @@ public class MyRender implements GLSurfaceView.Renderer{
 
     public MyRender(Context context) {
         mContext = context;
+        mTable = new Table(mContext);
     }
 
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         Log.d(TAG, "MyRender onSurfaceCreated");
         glClearColor(1.0f, 0f, 0f, 0f);
-        mTable = new Table(mContext);
+        mTable.onSurfaceCreated(gl, config);
     }
 
     @Override
@@ -40,14 +41,14 @@ public class MyRender implements GLSurfaceView.Renderer{
         } else {
             glViewport(0, 0, width, height);
         }
-        mTable.orthoM(height, width);
+        mTable.onSurfaceChanged(gl, width, height);
     }
 
     @Override
     public void onDrawFrame(GL10 gl) {
         Log.d(TAG, "MyRender onDrawFrame");
         glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-        mTable.draw();
+        mTable.onDrawFrame(gl);
     }
 
     public void setGLSurfaceView(GLSurfaceView glSurfaceView) {
