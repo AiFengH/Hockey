@@ -16,7 +16,7 @@ import static android.opengl.GLES20.*;
  */
 public class Table {
 
-    private static final int POSITION_COMPONENT_COUNT = 2;//一个顶点有两个分量表示
+    private static final int POSITION_COMPONENT_COUNT = 4;//一个顶点有两个分量表示
     private static final int COLOR_COMPONENT_COUNT = 3;//一个颜色有三个分量表示
     private static final int BYTE_PER_FLOAT = 4;
     private static final int STRIDE = (POSITION_COMPONENT_COUNT + COLOR_COMPONENT_COUNT) * BYTE_PER_FLOAT;
@@ -36,20 +36,20 @@ public class Table {
 //            -4.5f, 7f,
 
             //triangle fan
-            0f, 0f, 1f, 1f, 1f,
-            -4.5f, -7f, 0.7f, 0.7f, 0.7f,
-            4.5f, -7f, 0.7f, 0.7f, 0.7f,
-            4.5f, 7f, 0.7f, 0.7f, 0.7f,
-            -4.5f, 7f, 0.7f, 0.7f, 0.7f,
-            -4.5f, -7f, 0.7f, 0.7f, 0.7f,
+            0f, 0f, 0f, 1.5f, 1f, 1f, 1f,
+            -4.5f, -12f, 0f, 1f, 0.7f, 0.7f, 0.7f,
+            4.5f, -12f, 0f, 1f, 0.7f, 0.7f, 0.7f,
+            4.5f, 12f, 0f, 2f, 0.7f, 0.7f, 0.7f,
+            -4.5f, 12f, 0f, 2f, 0.7f, 0.7f, 0.7f,
+            -4.5f, -12f, 0f, 1f, 0.7f, 0.7f, 0.7f,
 
             //line 1
-            -4.5f, 0f, 1f, 0f, 0f,
-            4.5f, 0f, 1f, 0f, 0f,
+            -4.5f, 0f, 0f, 1.5f, 1f, 0f, 0f,
+            4.5f, 0f, 0f, 1.5f, 1f, 0f, 0f,
 
             //mallets point
-            0f, -5f, 0f, 0f ,1f,
-            0f, 5f, 1f, 0f, 0f
+            0f, -9f, 0f, 1.25f, 0f, 0f ,1f,
+            0f, 9f, 0f, 1.75f, 1f, 0f, 0f
 
     };
 
