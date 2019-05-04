@@ -6,6 +6,6 @@ vec4 position;
 void main() {
 	position = vec4(a_Position.x, a_Position.y, a_Position.z, a_Position.w);
 	v_Color = a_Color;
-    gl_Position = u_Matrix * position;
-	gl_PointSize = 10.0;
+    gl_Position = u_Matrix * a_Position;
+	gl_PointSize = 20.0;
 }

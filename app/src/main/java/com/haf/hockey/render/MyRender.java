@@ -6,7 +6,7 @@ import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.util.Log;
 
-import com.haf.hockey.object.Table;
+import com.haf.hockey.object.ColorTable;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -18,18 +18,18 @@ public class MyRender implements GLSurfaceView.Renderer{
     private static final String TAG = MyRender.class.getSimpleName();
     GLSurfaceView mGLSurfaceView = null;
     private Context mContext = null;
-    private Table mTable = null;
+    private ColorTable mColorTable = null;
 
     public MyRender(Context context) {
         mContext = context;
-        mTable = new Table(mContext);
+        mColorTable = new ColorTable(mContext);
     }
 
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         Log.d(TAG, "MyRender onSurfaceCreated");
         glClearColor(1.0f, 0f, 0f, 0f);
-        mTable.onSurfaceCreated(gl, config);
+        mColorTable.onSurfaceCreated(gl, config);
     }
 
     @Override
@@ -41,14 +41,14 @@ public class MyRender implements GLSurfaceView.Renderer{
         } else {
             glViewport(0, 0, width, height);
         }
-        mTable.onSurfaceChanged(gl, width, height);
+        mColorTable.onSurfaceChanged(gl, width, height);
     }
 
     @Override
     public void onDrawFrame(GL10 gl) {
         Log.d(TAG, "MyRender onDrawFrame");
         glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-        mTable.onDrawFrame(gl);
+        mColorTable.onDrawFrame(gl);
     }
 
     public void setGLSurfaceView(GLSurfaceView glSurfaceView) {

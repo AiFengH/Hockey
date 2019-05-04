@@ -5,6 +5,7 @@ import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
 
+import com.haf.hockey.util.Constants;
 import com.haf.hockey.util.MatrixHelper;
 import com.haf.hockey.util.ShaderHelper;
 import com.haf.hockey.util.TextResourceReader;
@@ -20,12 +21,11 @@ import static android.opengl.GLES20.*;
 /**
  * Created by Aaron Mt on 2019/3/17.
  */
-public class Table implements GLSurfaceView.Renderer{
+public class ColorTable implements GLSurfaceView.Renderer{
 
     private static final int POSITION_COMPONENT_COUNT = 4;//一个顶点有两个分量表示
     private static final int COLOR_COMPONENT_COUNT = 3;//一个颜色有三个分量表示
-    private static final int BYTE_PER_FLOAT = 4;
-    private static final int STRIDE = (POSITION_COMPONENT_COUNT + COLOR_COMPONENT_COUNT) * BYTE_PER_FLOAT;
+    private static final int STRIDE = (POSITION_COMPONENT_COUNT + COLOR_COMPONENT_COUNT) * Constants.BYTE_PER_FLOAT;
     private static final String U_COLOR = "u_Color";
     private static final String A_COLOR = "a_Color";
     private static final String A_POSITION = "a_Position";
@@ -77,7 +77,7 @@ public class Table implements GLSurfaceView.Renderer{
     private int uMatrixLocation = 0;
     private Context mConText = null;
 
-    public Table(Context context) {
+    public ColorTable(Context context) {
         mConText = context;
     }
 
@@ -92,7 +92,7 @@ public class Table implements GLSurfaceView.Renderer{
 
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-        mVertexBuffer = ByteBuffer.allocateDirect(mVertices.length * BYTE_PER_FLOAT).order(ByteOrder.nativeOrder()).asFloatBuffer();
+        mVertexBuffer = ByteBuffer.allocateDirect(mVertices.length * Constants.BYTE_PER_FLOAT).order(ByteOrder.nativeOrder()).asFloatBuffer();
         mVertexBuffer.put(mVertices);
 
         mVertexShaderSource = TextResourceReader.readTextFromResource(mConText, "simple_vertex_shader.glsl");

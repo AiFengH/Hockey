@@ -9,12 +9,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.haf.hockey.render.AirHockeyRenderer;
 import com.haf.hockey.render.MyRender;
 
 public class MainActivity extends Activity {
     private static final String TAG = MainActivity.class.getSimpleName();
     GLSurfaceView mGLSurfaceView = null;
     MyRender mRender = null;
+    AirHockeyRenderer mAirHockeyRenderer = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,9 +31,11 @@ public class MainActivity extends Activity {
         if (isSupportGL2) {
             Log.d(TAG, "SupportGL2");
             mGLSurfaceView.setEGLContextClientVersion(2);
-            mRender = new MyRender(this);
-            mRender.setGLSurfaceView(mGLSurfaceView);
-            mGLSurfaceView.setRenderer(mRender);
+//            mRender = new MyRender(this);
+            mAirHockeyRenderer = new AirHockeyRenderer(this);
+//            mRender.setGLSurfaceView(mGLSurfaceView);
+//            mGLSurfaceView.setRenderer(mRender);
+            mGLSurfaceView.setRenderer(mAirHockeyRenderer);
         } else {
             Toast.makeText(getApplicationContext(), "This device is not support GL2!!!", Toast.LENGTH_LONG).show();
             return;
